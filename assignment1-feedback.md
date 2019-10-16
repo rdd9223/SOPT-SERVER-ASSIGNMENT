@@ -103,3 +103,7 @@ router.use('/cafe', require('./cafe'));
 router.use('/blog', require('./blog'));
 router.use('/news',require('./news'));
 ```
+
+8. `router.use('/cafe', require('./cafe/cafe'))` index이외의 파일 지정
+
+***5번 CASE***와 마찬가지로 cafe폴더에 cafe를 직접 지정하게 된다면 `/api/index.js`가 `/api/cafe/cafe.js`를 지정하게 됩니다. 이는 비즈니스 로직을 가진 `cafe.js`를 해당 디렉토리 밖에서 호출하는 상황이 됩니다. 이는 `cafe.js`가 해당 디렉토리 이외에서도 의존성이 생기기 때문에 구조를 파악하기 위해서는 전체 코드를 분석해야 하는 상황이 생길 수 있습니다.
