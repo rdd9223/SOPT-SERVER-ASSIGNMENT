@@ -10,11 +10,13 @@
 - [/api/group]: 전체 그룹 구성을 조회한다.
 - [/api/group/:groupIdx]: 그룹 구성원을 조회한다.
 
-※ [QueryParameter 방식](https://ryan-han.com/post/translated/pathvariable_queryparam/)
+※ [Path Variable 방식](https://ryan-han.com/post/translated/pathvariable_queryparam/)
 localhost:3000/api/group/:groupIdx 으로 라우팅을 설정하고
 
 localhost:3000/api/group/4이 호출된다면 <br/>
 req.params.groupId에 4라는 값이 들어오게 됩니다!
+
+> [Path Variable과 Query Parameter는 언제 사용해야 할까?](https://ryan-han.com/post/translated/pathvariable_queryparam/)
 
 ## Level 2
 - Group.csv에 Group 정보(그룹 번호, 그룹 이름)가 저장 되어있다.
