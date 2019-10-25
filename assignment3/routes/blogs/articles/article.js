@@ -5,6 +5,7 @@ const router = express.Router({
 const statusCode = require('../../../module/utils/statusCode');
 const responseMessage = require('../../../module/utils/responseMessage');
 const authUtil = require('../../../module/utils/authUtil');
+const Article = require('../../../model/Article');
 
 const THIS_LOG = '게시글';
 /*
@@ -12,8 +13,15 @@ const THIS_LOG = '게시글';
     게시글 전체 보기
 */
 router.get('/', (req, res) => {
-    const {blogIdx} = req.params;
-    // result는 sample 입니다!
+    /*
+        TODO 1 Model에서 값 받아오기
+        동기 or 비동기 자유롭게 구현
+    */
+    Article.readAll();
+    /* 
+        TODO 2 결과값 출력
+        result는 sample 입니다!
+    */
     const result = [{
         articleIdx: 0,
         title: 'nodejs 시작하기',
@@ -30,12 +38,22 @@ router.get('/', (req, res) => {
 */
 router.get('/:articleIdx', (req, res) => {
     const {blogIdx, articleIdx} = req.params;
-    // result는 sample 입니다!
+    // TODO 1 parameter null check
+    
+    /*
+        TODO 2 Model에서 값 받아오기
+        동기 or 비동기 자유롭게 구현
+    */
+    Article.read(articleIdx);
+    /* 
+        TODO 3 결과값 출력
+        result는 sample 입니다!
+    */
     const result = {
-        articleIdx: articleIdx,
+        articleIdx,
+        blogIdx,
         title: 'nodejs 시작하기',
-        content: 'nodejs란...',
-        blogIdx
+        content: 'nodejs란...'
     };
     res.status(statusCode.OK).send(authUtil.successTrue(
         responseMessage.X_READ_SUCCESS(THIS_LOG),
@@ -47,7 +65,18 @@ router.get('/:articleIdx', (req, res) => {
 */
 router.post('/', (req, res) => {
     const {blogIdx} = req.params;
-    // result는 sample 입니다!
+    // TODO 1 parameter null check
+    const {} = req.body;
+    const json = {};
+    /*
+        TODO 2 Model에서 값 받아오기
+        동기 or 비동기 자유롭게 구현
+    */
+    Article.update(json);
+    /* 
+        TODO 3 결과값 출력
+        result는 sample 입니다!
+    */
     const result = {
         articleIdx: 0,
         title: 'nodejs 시작하기',
@@ -64,7 +93,18 @@ router.post('/', (req, res) => {
 */
 router.put('/', (req, res) => {
     const {blogIdx} = req.params;
-    // result는 sample 입니다!
+    // TODO 1 parameter null check
+    const {} = req.body;
+    const json = {};
+    /*
+        TODO 2 Model에서 값 받아오기
+        동기 or 비동기 자유롭게 구현
+    */
+    Article.update(json);
+    /* 
+        TODO 3 결과값 출력
+        result는 sample 입니다!
+    */
     const result = {
         articleIdx: 0,
         title: 'nodejs 시작하기',
@@ -80,7 +120,18 @@ router.put('/', (req, res) => {
     게시글 삭제하기
 */
 router.delete('/', (req, res) => {
-    // result는 sample 입니다!
+    // TODO 1 parameter null check
+    const {} = req.body;
+    const json = {};
+    /*
+        TODO 2 Model에서 값 받아오기
+        동기 or 비동기 자유롭게 구현
+    */
+    Article.delete(json);
+    /* 
+        TODO 3 결과값 출력
+        result는 sample 입니다!
+    */
     res.status(statusCode.OK).send(authUtil.successTrue(
         responseMessage.X_DELETE_SUCCESS(THIS_LOG)));
 });
