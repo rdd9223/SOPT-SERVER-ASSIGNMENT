@@ -1,18 +1,54 @@
 const express = require('express');
 const router = express.Router();
-const Member = require('../../model/member');
 const csvManager = require('../../module/csvManager');
+const groupMixer = require('../../module/groupMixer');
 
-router.get('/', function(req, res) {
-    // TODO 그룹 구성원 전체 보기
-    res.render('index', { title: 'Express' });
+router.get('/', async (req, res) => {
+    try {
+        const groupArray = await csvManager.read('group.csv');
+        console.log(groupArray);
+        const groupMap = {};
+        groupArray.forEach(element => {
+            groupMap[element.groupIdx] = element.name;
+        });
+        const memberArray = await csvManager.read('member.csv');
+        res.status(200).send(memberArray.map(it => `${it.name}:${groupMap[it.groupIdx]}`).join('\n'));
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-router.get('/:groupIdx', function(req, res) {
+router.get('/mixer', async (req, res) => {
+    try{
+        const memberArray = await csvManager.read('member.csv');
+        const newArray = groupMixer.mix(memberArray);
+        await csvManager.write('member.csv', newArray);
+        res.status(200).send('success to mix group');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+router.get('/:groupIdx', async (req, res) => {
     const groupIdx = req.params.groupIdx;
-    console.log(groupIdx);
-    // TODO 특정 그룹의 인원 보기
-    res.render('index', { title: groupIdx });
+    try {
+        const groupArray = await csvManager.read('group.csv');
+        console.log(groupArray);
+        const groupMap = {};
+        groupArray.forEach(element => {
+            groupMap[element.groupIdx] = element.name;
+        });
+        const memberArray = await csvManager.read('member.csv');
+        res.status(200).send(memberArray
+            .filter(it => it.groupIdx == groupIdx)
+            .map(it => `${it.name}:${groupMap[it.groupIdx]}`)
+            .join('\n'));
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;
