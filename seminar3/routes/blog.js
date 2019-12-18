@@ -50,4 +50,21 @@ router.put('/', async(req, res) => {
     }
     res.status(statusCode.CREATED).send(authUtil.successTrue(responseMessage.BOARD_CREATE_SUCCESS, putBlogResult));
 })
+
+router.delete('/', async(req, res) => {
+    const {writer} = req.body;
+    
+    if (!title || !writer || !intro) {
+        res.status(statusCode.BAD_REQUEST).send(authUtil.successFalse(responseMessage.NULL_VALUE));
+    }
+
+    const deleteBlogQuery = `DELETE FROM blog WHERE writer = ${writer}`;
+    const deleteBlogResult = await db.queryParam_Parse(deleteBlogQuery);
+
+    
+    if(!deleteBlogResult) {
+        res.status(500).send('error');
+    }
+    res.status(statusCode.CREATED).send(authUtil.successTrue(responseMessage.BOARD_CREATE_SUCCESS, deleteBlogResult));
+})
 module.exports = router;
